@@ -19,8 +19,8 @@ async function processTextMessage(messageText,raid_tier){
 
     if(raid_regexp === 'no-regexp-found')
     {
-        console.log(raid_regexp,'no regexp found','@ekRaids/processTextMessage()/if(raid_regexp === no-regexp-found)','var-value');
-        return raid_regexp;
+            console.log(raid_regexp,'no regexp found','@ekRaids/processTextMessage()/if(raid_regexp === no-regexp-found)','var-value');
+            return raid_regexp;
     }
     else
     {

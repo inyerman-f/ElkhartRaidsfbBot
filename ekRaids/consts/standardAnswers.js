@@ -2,7 +2,7 @@ const standard_answers = {
     ['english']:{
                 ['sorry']:
                     {
-                        'bad_image_processing':'Thanks for your help. Unfortunately we are unable to process your image'+
+                        'bad_image_processing':'Thanks for your help. Unfortunately we are unable to process your message'+
                         ' at this time. Every image you share helps us to create a better model'+
                         'for our community bot. We appreciate your help!',
                         'could_not_get_gym':'Thanks for sharing this raid information with us. Unfortunately we were unable to find the gym in our database. We will review the information you provided'+

@@ -23,11 +23,12 @@ async function process_fb_text_msg(messageText,senderId,raid_tier)
         }else if(resp === 'could-not-find-cleanup-regexp'){
             sendTextMessage(senderId,stAns.standard_answers.english.sorry.bad_image_processing);
         }
-        else {
+        else if(resp.gym_name) {
             send_thanks_for_raid(senderId, resp.gym_name,resp.boss_name, resp.end_time);
+        }else {
+            sendTextMessage(senderId,stAns.standard_answers.english.greetings.bot_greeting);
         }
         sendTypingOff(senderId);
-
     }
     else
     {
