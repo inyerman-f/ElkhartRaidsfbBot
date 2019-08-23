@@ -1,0 +1,3 @@
+8:001 Elkhart High Dive Swimming Pool (The CP26020 CP Granbull 0:44:41 Walk closer to interact with this Gym ',
+11:141 LTE Nibeo Water Park Cr49803 Rayaza 0:35:09 Walk closer to interact with
+5:26 d 419 30 % wall of heroes g49803 ray aza 0:24:41 20 battle private group iii 5 function start @ekRaids/processTextMessage()

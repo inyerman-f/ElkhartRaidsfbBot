@@ -1,0 +1,54 @@
+6:12 Downtown Elkhart Water Tower 0:53:54 Walk closer to interact with this Gym
+-------------------------------------------------------
+(.*?\d+\:.*?\s)(.*)\s(\w+\d+)\s(\w+)\s(\d+\:\d+\:\d+)
+
+16:33 Wall of Heroes CP2873 Shinx 0:26:06 S0 BATTLE PRIVATE GROUP 
+
+6:511 Ruthmere Museum C28590 Houndoom 0:11:33 Walk closer to interact with this Gym. X
+
+6:461 McNaughton Park Amphitheater Car8758 Gloom 0:13:28 Walk closer to interact with this Gym. X
+
+6:471 ITE Grand Horizon Center (Church) 28769 Absol 0:26:55 Walk closer to interact with this Gym
+
+6:301 Langle Park 13472 Sutor 0:19:50 Walk closer to interact with this Gym
+
+10:371 Unitarian Universalism 41299 Mewtwo 0:37:34 Walk closer to interact with this Gym. X
+
+4G 1:47 The Lerner Theatre 4AA 19707 Machamp 0:31:15 Walk closer to interact with this Gym.
+
+6:18 Memorial Fountain 28769 Absol 0:33:10 Walk closer to interact with this Gym
+
+6:37 Franklin Gazeb0 Cr21207 Gengar 0:10:11 Walk closer to interact with this Gym.
+6:461 McNaughton Park Amphitheater Car8758 Gloom 0:13:28 Walk closer to interact with this Gym. X
+
+----------------------------------------------------------
+(\d+\:\d+)\s(.*\w)\s(\d+)\s(\w+)\s(CP)\s(\d+\:\d+\:\d+)
+
+all25% 2 5:43 PM LTE Willowdale Park 52220 Latios CP 0:42:03 Walk closer to interact with this Gym. Dis one, mehbe? ?
+
+6:471 LTE Praying Jesus Monument 16848 Raichu CP 0:26:37 Walk closer to interact with this Gym. X
+
+
+---------------------------------------------------------
+(\d+\:\d+)\s(.*\w)\s(\d+)\s(CP)\s(\w+)\s(\d+\:\d+\:\d+)
+
+6:311 Liberty Garden 10981 CP Sneasel 0:42:24 Walk closer to interact with this Gym
+
+----------------------------------------------------------
+(\d+\:\d+\s)(?!LTE)(?!(.*\s\w+\d+\s\w+\s))(.*)(\d+\:\d+\:\d+)
+
+6:12 Downtown Elkhart Water Tower 0:53:54 Walk closer to interact with this Gy
+
+3:01 National New York Central Rail 0:29:06 Walk closer to interact with this Gym.
+
+4:37 Life Tabernacle Church 0:54:40 Walk closer to interact with this Gym. X
+
+0 76% AT&T LTE 2:56 PM First Presbyterian Church of Elkhart 0:33:48
+
+----------------------------------------------------------
+(\d+\:\d+\s)(.*TE)(?!(.*\s\w+\d+\s\w+\s))(.*)(\d+\:\d+\:\d+)
+
+3:04 LTE Memorial te Fountain 0:38:07 Walk closer to interact with this Gym
+
+6:461 LTE Wall of Heroes 0:37:29 Walk closer to interact with this Gym
+
