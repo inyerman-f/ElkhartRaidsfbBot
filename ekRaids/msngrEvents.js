@@ -110,7 +110,7 @@ async function receivedMessage(event)
     }
    else if (messageText)
     {
-        await msngrUtils.process_fb_text_msg(messageText,senderID,'');
+        await msngrUtils.process_fb_text_msg(messageText,senderID);
 
 
     }

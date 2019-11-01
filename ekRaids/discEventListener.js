@@ -15,7 +15,9 @@ async function start_discord()
     await start_msg_listener();
 
     await client.login(configs.distoken);
-}module.exports.start_discord = async function () {
+}
+module.exports.start_discord = async function () 
+{
         await start_discord();
 };
 
@@ -44,3 +46,14 @@ client.on('message', msg => {
         }
     });
 }
+
+/**
+ * Announce a raid on pokenav
+ * @param mensa
+ * @returns {Promise<void>}
+ */
+async function announce2PokeNav(mensa,canal){
+    client.channels.get(canal).send(mensa);
+}module.exports.announce2PokeNav = async function (mensa,canal){
+ await   announce2PokeNav(mensa,canal);
+};

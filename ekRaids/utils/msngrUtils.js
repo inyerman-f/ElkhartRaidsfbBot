@@ -3,14 +3,15 @@ const
     txtProcessor = require('../processors/txtMessage'),
     request = require('request'),
     configs = require('../getConfigs'),
+    discord = require('../discEventListener'),
     ekRaids = require('../ekRaids');
 
-async function process_fb_text_msg(messageText,senderId,raid_tier)
+async function process_fb_text_msg(messageText,senderId)
 {
     sendTypingOn(senderId);
     await ekRaids.push_msg(messageText,'process_fb_text_msg','raidExpression');
     let mensa = messageText.toString().trim().toLowerCase();
-    let resp = await ekRaids.processTextMessage(mensa,raid_tier);
+    let resp = await ekRaids.processTextMessage(mensa);
 
     if(resp)
     {
@@ -47,17 +48,17 @@ async function process_fb_image_msg(messageAttachments,senderId)
     img_url = img_url.payload.url;
     //  let process_raid='';
     console.log(img_url+'img_url @fb_img_mg_processor');
-
-    let resp = await ekRaids.processImgMessage(img_url);
+    discord.announce2PokeNav({files: [img_url]},'602225767056801864');
+    /* let resp = await ekRaids.processImgMessage(img_url);
 
     console.log(resp);
 
     let dato = resp[0].dato;
     let raid_lvl =resp[0].raid_lvl;
-    console.log(dato,'dato @process_fb_image_msg');
+    console.log(dato,'dato @process_fb_image_msg'); 
     await process_fb_text_msg(dato, senderId, raid_lvl);
     //    console.log('we successfully processed the image');
-
+    */
 
 }module.exports.process_fb_image_msg = async function(messageAttachments,senderId){
     await process_fb_image_msg(messageAttachments,senderId);

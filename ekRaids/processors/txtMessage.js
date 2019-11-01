@@ -19,12 +19,25 @@ async function getRaidData(messageText,regexp){
         let hatched = regexp.hatched;
         let gen_statement = regexp.name;
         let type = regexp.type;
-
         if(type ==='raid')
         {
             messageText = messageText.split(regexp.expression);
             console.log(messageText, 'after split @getRaidData/if(regexp)');
-            messageText = messageText[regexp.gym] + ' ' + messageText[regexp.cp] + ' ' + messageText[regexp.boss] + ' ' + messageText[regexp.time];
+            if(regexp.cp){
+                messageText = messageText[regexp.gym] + ' ' + messageText[regexp.cp] + ' ' + messageText[regexp.boss] + ' ' + messageText[regexp.time];
+            }
+            else{
+
+                //messageText = messageText[regexp.gym] + ' ' + messageText[regexp.boss] + ' ' + messageText[regexp.time];
+                let boss_name = messageText[regexp.boss];
+                let gym_name = await cleanGymName(messageText[regexp.gym]);
+                let end_time = await cleanEndTime(messageText[regexp.time]);
+                messageText = messageText[regexp.gym] + ' ' + messageText[regexp.boss] + ' ' + messageText[regexp.time];
+                data = {boss_name: boss_name, gym_name: gym_name, end_time: end_time, hatched: hatched, type: type};
+                console.log(data);
+                return data;
+
+            }
             console.log(messageText,'@getRaidData/if(type===raid');
             messageText = cleanupContent(messageText);
             console.log(messageText, 'general-statement @getRaidData/if(type===raid ' + gen_statement);
@@ -41,6 +54,7 @@ async function getRaidData(messageText,regexp){
                     let boss_name = messageText[cleanup_exp.boss];
                     let gym_name = await cleanGymName(messageText[cleanup_exp.gym]);
                     let end_time = await cleanEndTime(messageText[cleanup_exp.time]);
+                    
                     data = {boss_name: boss_name, gym_name: gym_name, end_time: end_time, hatched: hatched, type: type};
                     console.log(data);
                     return data;
@@ -52,6 +66,30 @@ async function getRaidData(messageText,regexp){
                 return 'could-not-find-cleanup-regexp';
             }
         }
+        else if(type ==='egg')
+        {
+            messageText = messageText.split(regexp.expression);
+            console.log(messageText, 'after split @getRaidData/if(regexp)');
+            if(regexp.cp){
+                messageText = messageText[regexp.gym] + ' ' + messageText[regexp.cp] + ' ' + messageText[regexp.boss] + ' ' + messageText[regexp.time];
+            }
+            else
+            {
+
+                //messageText = messageText[regexp.gym] + ' ' + messageText[regexp.boss] + ' ' + messageText[regexp.time];
+                let boss_name = regexp.boss;
+                let tier = messageText[regexp.tier];
+                let gym_name = await cleanGymName(messageText[regexp.gym]);
+                let end_time = await cleanEndTime(messageText[regexp.time]);
+                messageText = messageText[regexp.gym] + ' ' + boss_name + ' ' + messageText[regexp.time];
+                data = {boss_name: boss_name, gym_name: gym_name, end_time: end_time, hatched: hatched, type: type, raid_tier:tier};
+                console.log(data);
+                return data;
+
+            }
+
+        }
+
     }
     else
     {
@@ -70,8 +108,13 @@ async function getRaidData(messageText,regexp){
  * @returns {Promise<*|expression>}
  */
 async function findRegexpMatch(str){
+    
 
-    let general_regexps = regexps.raid_regexps.general_statements.raids;
+    let  general_regexps = regexps.raid_regexps.general_statements.raids;
+    if(str.includes('egg') || str.includes('level')){
+        general_regexps = regexps.raid_regexps.general_statements.eggs;
+    }
+     
     str = str.toString();
     let expression = '';
 
@@ -96,6 +139,7 @@ async function findRegexpMatch(str){
 
 }module.exports.findRegexpMatch = async function(str){
     return await findRegexpMatch(str);
+    
 };
 
 /**
@@ -103,7 +147,8 @@ async function findRegexpMatch(str){
  * @param str
  * @returns {Promise<string>}
  */
-async function findCleanUpExpressionMatch(str){
+async function findCleanUpExpressionMatch(str)
+{
 
     let cleanup_regexps = regexps.cleanup_exps;
     str = str.toString();

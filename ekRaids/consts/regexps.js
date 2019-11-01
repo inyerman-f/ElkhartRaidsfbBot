@@ -59,6 +59,9 @@ const raid_regexps = {
                             'name':'raid_announcement_regex2',
                             'expression':/((\w+)\s+(raid at)\s+(.*?)\s+(with)\s+(\d+)\s+(mins))/g,
                             'type':'raid',
+                            'boss':2,
+                            'gym':4,
+                            'time':6,
                             'hatched':1
                         },
                     ['raid_announcement_regex3'] :
@@ -82,7 +85,7 @@ const raid_regexps = {
                 },
                 ['eggs']:
                     {
-                    [4]:
+                    ['general_statement_egg']:
                         {
                             'statement_name': 'general_statement_egg',
                             'expression': /(\d+\:\d+\s)(?!LTE)(?!(.*\s\w+\d+\s\w+\s))(.*)(\d+\:\d+\:\d+)/g,
@@ -91,7 +94,7 @@ const raid_regexps = {
                             'type':'egg',
                             'hatched':0
                         },
-                    [5]:
+                    ['general_statement_egg2']:
                         {
                             'statement_name': 'general_statement_egg2',
                             'expression': /(\d+\:\d+.*TE)(?!(.*\s\w+\d+\s\w+\s))(.*)(\d+\:\d+\:\d+)/g,
@@ -100,7 +103,7 @@ const raid_regexps = {
                             'type':'egg',
                             'hatched':0
                         },
-                    [6]:
+                    ['general_statement_egg3']:
                         {
                             'statement_name': 'general_statement_egg3',
                             'expression': /(\d+\:\d+\s)(.*TE)(?!(.*\s\w+\d+\s\w+\s))(.*)(\d+\:\d+\:\d+)/g,
@@ -111,8 +114,12 @@ const raid_regexps = {
                         },
                     ['egg_announcement_regex1']:
                         {
-                            'expression':/((level)\s+(\d+)\s+(raid at)\s+(.*?)\s+(\d+)\s+(mins))/g,
+                            'expression':/(level)\s(\d+)\s(raid)\s(at)\s(.*)\s(in)\s(\d+)\s(min)/g,
                             'type':'egg',
+                            'boss':'tbd',
+                            'gym':5,
+                            'time':7,
+                            'tier':2,
                             'hatched':0
                         }
                 }

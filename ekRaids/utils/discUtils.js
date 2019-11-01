@@ -1,8 +1,7 @@
 const
     consts = require('../consts/declareGlobalConstants'),
     axios = require('axios'),
-    Discord =require('discord.js'),
-    client = new Discord.Client(),
+    Discord =require('../discEventListener'),
     eKRaids = require('../ekRaids');
 
 /**
@@ -58,7 +57,7 @@ async function processTextMsg(msg,raid_lvl){
  */
 async function processImageMsg(img_url) {
 
-    console.log(img_url, 'var img_url @discUtils/processImageMsg()');
+  /*  console.log(img_url, 'var img_url @discUtils/processImageMsg()');
     img_url = img_url.toString();
     let resp = await eKRaids.processImgMessage(img_url);
     console.log(resp, 'var resp @discUtils/processImageMsg()');
@@ -74,7 +73,8 @@ async function processImageMsg(img_url) {
     else
     {
         console.log(img_url+' img could not be processed','@discUtils/processImageMsg()/if(resp)/else');
-    }
+    }*/
+    
 }module.exports.processImageMsg = async function(img_url){
      await processImageMsg(img_url);
 };
@@ -107,21 +107,10 @@ async function sen2Discord(gym_name,boss_name,end_time,type,raid_tier){
         console.error(error);
     });
 
-    await announce2PokeNav(mensa);
-    await announce2PokeNav(consts.raidDeetsUrl+gym_id);
+    await Discord.announce2PokeNav(mensa,'602225767056801864');
+    await Discord.announce2PokeNav(consts.raidDeetsUrl+gym_id,'602225767056801864');
 
 
 }module.exports.sen2Discord = async function (gym_name,boss_name,end_time,type,raid_tier){
     await   sen2Discord(gym_name,boss_name,end_time,type,raid_tier);
-};
-
-/**
- * Announce a raid on pokenav
- * @param mensa
- * @returns {Promise<void>}
- */
-async function announce2PokeNav(mensa){
-    client.channels.get('606147414587604993').send(mensa);
-}module.exports.announce2PokeNav = async function (mensa){
- await   announce2PokeNav(mensa);
 };

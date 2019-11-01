@@ -2,6 +2,7 @@ const
     axios = require('axios'),
     imgProcessor = require('./processors/imgMessage'),
     txtProcessor = require('./processors/txtMessage'),
+    discord = require('./utils/discUtils'),
     configs = require('./getConfigs'),
     consts = require('./consts/declareGlobalConstants');
 
@@ -11,10 +12,10 @@ const
  * @param raid_tier
  * @returns {Promise<string|{boss_name, hatched, gym_name, end_time, raid_tier}|*>}
  */
-async function processTextMessage(messageText,raid_tier){
+async function processTextMessage(messageText){
 
     console.log(messageText,'@ekRaids/processTextMessage()','var-value');
-
+  
     let raid_regexp = await txtProcessor.findRegexpMatch(messageText);
 
     if(raid_regexp === 'no-regexp-found')
@@ -30,7 +31,16 @@ async function processTextMessage(messageText,raid_tier){
         console.log(raid_data,'@ekRaids/processTextMessage()/else');
         if (raid_data && raid_data!=='could-not-find-cleanup-regexp')
         {
-           let resp = await logRaid(raid_data.boss_name, raid_data.gym_name, raid_data.end_time, raid_data.hatched, raid_data.type, raid_tier);
+          // let raid_tier = await getTierByBossName(raid_data.boss_name);
+           //console.log(raid_tier);
+           let resp = '';
+
+            if(raid_data.tier){
+                    resp = await logRaid(raid_data.boss_name, raid_data.gym_name, raid_data.end_time, raid_data.hatched, raid_data.type,raid_data.tier);
+            }else{
+
+                 resp = await logRaid(raid_data.boss_name, raid_data.gym_name, raid_data.end_time, raid_data.hatched, raid_data.type,'');
+            }
             console.log(resp,'resp @ekRaids/processTextMessage()');
             if (resp)
             {
@@ -39,9 +49,9 @@ async function processTextMessage(messageText,raid_tier){
         }
     }
 
-}module.exports.processTextMessage = async function(messageText,raid_tier) {
+}module.exports.processTextMessage = async function(messageText) {
 
-    return await processTextMessage(messageText,raid_tier);
+    return await processTextMessage(messageText);
 
 };
 
@@ -96,6 +106,24 @@ async function axios_push(url, data){
         });
 }module.exports.axios_push = async function(url,data){
     await axios_push(url,data);
+};
+
+/**
+ */
+async function getTierByBossName(boss_name){
+
+  let raid_tier = await axios.get(consts.getBossTier+boss_name).then( response => {
+        raid_tier = response.data;
+       //push_msg(boss_name+' axiosBossNameResponse','@ekRaids/logRaid()/boss_name','var-value');
+        return raid_tier;
+    }).catch(error => {
+        console.error(error);
+    });
+
+}module.exports.getTierByBossName = async function(boss_name){
+    
+    await getTierByBossName(boss_name);
+
 };
 
 /**
@@ -159,8 +187,8 @@ async function download_image(url){
  * @returns {Promise<string|{boss_name: *, hatched: *, gym_name: *, end_time: *, raid_tier: *}>}
  */
 async function logRaid(boss_name,gym_name,end_time,hatched,type,raid_tier){
-    console.log(boss_name,gym_name);
-
+    console.log(boss_name,gym_name,type,raid_tier);
+   //let raid_tier ='';
    gym_name = await axios.get(consts.gymNameByAliasUrl+gym_name).then( response => {
         gym_name = response.data;
         //push_msg(gym_name+' axiosGymNameResponse','@ekRaids/logRaid()/gym_name','var-value');
@@ -169,13 +197,25 @@ async function logRaid(boss_name,gym_name,end_time,hatched,type,raid_tier){
         console.error(error);
     });
 
-   boss_name = await axios.get(consts.monNameByAliasUrl+boss_name).then( response => {
-        boss_name = response.data;
-       //push_msg(boss_name+' axiosBossNameResponse','@ekRaids/logRaid()/boss_name','var-value');
-        return boss_name;
-    }).catch(error => {
-        console.error(error);
-    });
+   if(!boss_name === 'tbd'){
+       
+        boss_name = await axios.get(consts.monNameByAliasUrl+boss_name).then( response => {
+                boss_name = response.data;
+            //push_msg(boss_name+' axiosBossNameResponse','@ekRaids/logRaid()/boss_name','var-value');
+                return boss_name;
+            }).catch(error => {
+                console.error(error);
+            });
+
+        raid_tier = await axios.get(consts.getBossTier+boss_name).then( response => {
+            raid_tier = response.data;
+        //push_msg(boss_name+' axiosBossNameResponse','@ekRaids/logRaid()/boss_name','var-value');
+            return raid_tier;
+        }).catch(error => {
+            console.error(error);
+        });
+   }
+
 
     if ( boss_name === 'not-found')
     {
@@ -202,7 +242,8 @@ async function logRaid(boss_name,gym_name,end_time,hatched,type,raid_tier){
 
     await axios_push(consts.raidCreateUrl, data);
         console.log(data,'@logRaid');
-        //await discord.sen2Discord(gym_name, boss_name, end_time, type, raid_tier);
+        
+        await discord.sen2Discord(gym_name, boss_name, end_time, type, raid_tier);
         gym_name = "";
         boss_name = "";
         return data;
