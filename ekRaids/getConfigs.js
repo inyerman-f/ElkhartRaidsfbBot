@@ -39,6 +39,10 @@ const ClarifaiAPIKey = (process.env.ClarifaiAPIKey) ?
     process.env.ClarifaiAPIKey:
     config.get('ClarifaiAPIKey');
 
+const witAIToken = (process.env.witAIToken) ?
+    process.env.witAIToken:
+    config.get('witAIToken');
+
 const VisionAPIKey = (process.env.VisionAPIKey) ?
     process.env.VisionAPIKey:
     config.get('VisionAPIKey');
@@ -80,5 +84,6 @@ module.exports = {
     ekRaidsClarifaiModel,
     ekRaidsClarifaiModelVersion,
     ekRaidsVisionAmlModel,
-    ekRaidsVisionAmlProject
+    ekRaidsVisionAmlProject,
+    witAIToken
 };

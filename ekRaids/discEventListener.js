@@ -19,32 +19,54 @@ async function start_discord()
 module.exports.start_discord = async function () 
 {
         await start_discord();
-};
+}
 
 async function start_msg_listener()
 {
 client.on('message', msg => {
-        console.log(msg.content);
-        if (msg.channel.id === '536980354850881569' || msg.channel.id === '600716620553519114') {
+        console.log(msg.content);//536980354850881569
+        if (msg.channel.id === '537064710093144066' || msg.channel.id === '602225767056801864') {
 
             let attch = msg.attachments.array();
             attch = attch[0];
-            msg = msg.content;
-            msg = msg.toString();
+            let usu = msg.author.id;
 
-            if (attch === undefined){
-                if(msg.match(/.*raid.*/gmi) || msg.match(/.*raid.*/gi)) {
-                    discUtils.processTextMsg(msg);
+            if (usu != '553296188045262848' && !msg.author.bot){
+                msg = msg.content;
+                msg = msg.toString();
+                console.log('a messagem was recivido');
+                if (attch === undefined){
+
+                processText(msg);
+                console.log(msg,' ----at msg recieved Discord');
+                
+
                 }
-            }
-            else {
-                console.log(attch);
+                else {
+                // console.log(attch);
                 attch = attch.proxyURL;
-               discUtils.processImageMsg(attch);
-              //  console.log(attch);
+                processImg(attch);
+                console.log(attch,' -----at img recieved Discord');
+                }
+            }else{
+                console.log('chinche robot...ignoralo');
             }
+
         }
     });
+}
+
+async function processText(txt){
+
+    let  resp = await discUtils.processTextMsg(txt);
+    console.log(resp,' ---at txtmsg processing completed');
+    client.channels.get('537064710093144066').send('te procese');
+}
+
+async function processImg(imgUrl){
+
+    let  resp = await  discUtils.processImageMsg(imgUrl);
+    console.log(resp,' -----at img processing completed');
 }
 
 /**
@@ -56,4 +78,4 @@ async function announce2PokeNav(mensa,canal){
     client.channels.get(canal).send(mensa);
 }module.exports.announce2PokeNav = async function (mensa,canal){
  await   announce2PokeNav(mensa,canal);
-};
+}

@@ -5,6 +5,11 @@ const
     discord = require('./utils/discUtils'),
     configs = require('./getConfigs'),
     consts = require('./consts/declareGlobalConstants');
+    const {Wit, log} = require('node-wit');
+    const witClient = new Wit({accessToken: configs.witAIToken});
+
+
+
 
 /**
  * Process received text and log to raid site
@@ -63,31 +68,24 @@ async function processTextMessage(messageText){
  */
 async function processImgMessage(img_url){
 
-    console.log(img_url+' img_url','@ekRaids/processImgMessage()','var-value');
-    let dato = '';
-    let level ='';
+    let respuesta;
+    let imgData = await imgProcessor.getVisionResponse(img_url);
+    //console.log('este',imgData);
+    //let isRaidEgg;
+    
+    let witresp = await eKRaids.send2Wit(imgData);
+       witresp = witresp['entities'];
 
-    let img_download_path = await download_image(img_url);
-    console.log(img_download_path+' img_download_path post download trigger','@processImgMessage','var-value');
+    let witProssResp = await proccessWitTxt(witresp);
+        respuesta = witProssResp;
+        console.log(respuesta,'---at respuesta')
 
-    if(img_download_path)
-    {
-        level = await  imgProcessor.visionPredict(img_download_path);
-        if (level) {
-            console.log(level);
-            //return null;
-            dato =  await imgProcessor.getVisionResponse('./'+img_download_path);
+    
 
-            if(dato){
-                console.log([{'dato':dato,'raid_lvl':level}]);
-              //  return [{dato:dato,raid_lvl:level}];
-            }
-        }
-    }
-    else
-    {
-        console.log('image url not received');
-    }
+
+    return respuesta;
+
+
 }module.exports.processImgMessage = async function(img_url){
     return await processImgMessage(img_url);
 };
@@ -251,4 +249,56 @@ async function logRaid(boss_name,gym_name,end_time,hatched,type,raid_tier){
 
 }module.exports.logRaid = async function (boss_name,gym_name,end_time,hatched,type,raid_tier){
     return await logRaid(boss_name,gym_name,end_time,hatched,type,raid_tier);
+};
+
+async function send2Wit(message){
+let resp;
+resp =  witClient.message(message, {})
+    .then((data) => {
+        //console.log('Yay, got Wit.ai response: ' + JSON.stringify(data));
+        resp = (data);
+        return  resp;
+    })
+    .catch(console.error);
+
+  return await resp;
+
+}module.exports.send2Wit = async function (message){
+    return await send2Wit(message);
+};
+
+
+async function proccessWitTxt(strng){
+
+console.log(strng);
+let type;
+let raidLvl;
+let boss_name;
+let location;
+let duration;
+
+
+if(strng['raid_egg_expression']){
+        type = 'egg';
+        console.log('is an egg ', type);
+}
+else if (strng['raid_boss'])
+{
+        type = 'raid';
+        console.log('is an raid ', type);
+            boss_name = strng['raid_boss'][0].value;
+    console.log(boss_name);
+}
+
+if(strng['raid_tier'])
+{
+    raidLvl = strng['raid_tier'][0].value;
+    console.log(raidLvl);
+}
+
+
+return type;
+
+}module.exports.proccessWitTxt = async function (strng){
+    return await proccessWitTxt(strng);
 };

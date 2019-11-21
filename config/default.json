@@ -10,5 +10,6 @@
     "ekRaidsClarifaiModel": "ElkhartRaids",
     "ekRaidsModelVersion": "a1fe6de881934b3cab27b73b8a5a3186",
     "ekRaidsVisionAmlModel": "ICN209994496415209757",
-    "ekRaidsVisionAmlProject": "my-project-1501523873390"
+    "ekRaidsVisionAmlProject": "my-project-1501523873390",
+    "witAIToken":"VHKBY22TZWKSFXI4SXHLSXSG6QBP6MYM"
 }

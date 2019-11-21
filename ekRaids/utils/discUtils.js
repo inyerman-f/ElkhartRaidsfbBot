@@ -1,7 +1,7 @@
 const
     consts = require('../consts/declareGlobalConstants'),
     axios = require('axios'),
-    Discord =require('../discEventListener'),
+    Discord =require('../discEventListener');
     eKRaids = require('../ekRaids');
 
 /**
@@ -9,45 +9,16 @@ const
  * @param msg
  * @returns {Promise<void>}
  */
-async function processTextMsg(msg,raid_lvl){
+async function processTextMsg(msg){
 
-   let mensa = msg.toString().trim().toLowerCase();
-   await eKRaids.push_msg(mensa,'msg @discUtils/processTextMsg()','raidExpression');
-   console.log(mensa,'msg @discUtils/processTextMsg()','raidExpression');
+    console.log(msg);
 
-   let resp = await eKRaids.processTextMessage(mensa,raid_lvl);
-   console.log(resp,'@discUtils/processTextMsg() ');
-    if(resp)
-    {
-        if(resp === 'failed-boss-name')
-        {
-            console.log('failed to find the boss name','@discUtils/processTextMsg()/if(resp)/if(resp === failed-boss-name)','error-response');
-        }
-        else if(resp === 'failed-gym-name')
-        {
-            console.log('failed to find the gym name','@discUtils/processTextMsg()/if(resp)/if(resp === failed-boss-name)/else if(resp === failed-gym-name)','error-response');
-        }
-        else if(resp === 'no-regexp-found')
-        {
-            console.log('failed to find a matching regexp','@discUtils/processTextMsg()/if(resp)/if(resp === failed-boss-name)/else if(no-regexp-found)','error-response');
-        }
-        else if(resp === 'could-not-find-cleanup-regexp')
-        {
-            console.log('could-not-find-cleanup-regexp','@discUtils/processTextMsg()/if(resp)/if(resp === failed-boss-name)/else if(could-not-find-cleanup-regexp)','error-response');
-        }
-        else
-        {
-            console.log('unknown error','');
-        }
-    }
-    else
-    {
-        console.log('text message could not be processed','@discUtils/processTextMsg()/else','error-response');
-       // sendTextMessage(senderId,stAns.standard_answers.english.sorry.could_not_understand);
-    }
+   let resp = await eKRaids.send2Wit(msg);
+   console.log('shid worked ', resp);
+   return resp;
 
-}module.exports.processTextMsg = async function(msg,raid_lvl){
-    await processTextMsg(msg,raid_lvl);
+}module.exports.processTextMsg = async function(msg){
+   return await processTextMsg(msg);
 };
 
 /**
@@ -57,26 +28,15 @@ async function processTextMsg(msg,raid_lvl){
  */
 async function processImageMsg(img_url) {
 
-  /*  console.log(img_url, 'var img_url @discUtils/processImageMsg()');
-    img_url = img_url.toString();
     let resp = await eKRaids.processImgMessage(img_url);
-    console.log(resp, 'var resp @discUtils/processImageMsg()');
+    //console.log(resp);
+   let raid_string = resp;
+    console.log(raid_string,"----derp-----");
+   return await raid_string;
 
-    if (resp)
-    {
-        console.log(resp+' resp', '@discUtils/processImageMsg()/if(resp)','var-value');
-        console.log(resp[0].dato, resp[0].raid_lvl, ' @discUtils/processImageMsg()/if(resp)', 'var-value');
-        let raid_string = resp[0].dato;
-        let raid_lvl = resp[0].raid_lvl;
-        await processTextMsg(raid_string, raid_lvl);
-    }
-    else
-    {
-        console.log(img_url+' img could not be processed','@discUtils/processImageMsg()/if(resp)/else');
-    }*/
     
 }module.exports.processImageMsg = async function(img_url){
-     await processImageMsg(img_url);
+    return  await processImageMsg(img_url);
 };
 
 /**
@@ -107,7 +67,7 @@ async function sen2Discord(gym_name,boss_name,end_time,type,raid_tier){
         console.error(error);
     });
 
-    await Discord.announce2PokeNav(mensa,'602225767056801864');
+    await Discord.announce2PokeNav(mensa,'600503061827551262');
     await Discord.announce2PokeNav(consts.raidDeetsUrl+gym_id,'602225767056801864');
 
 

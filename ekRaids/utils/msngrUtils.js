@@ -48,7 +48,8 @@ async function process_fb_image_msg(messageAttachments,senderId)
     img_url = img_url.payload.url;
     //  let process_raid='';
     console.log(img_url+'img_url @fb_img_mg_processor');
-    discord.announce2PokeNav({files: [img_url]},'602225767056801864');
+    await discord.announce2PokeNav({files: [img_url]},'600503061827551262');
+    sendTextMessage(senderId,"thanks for sharing this picture :). The raid data will be logged in https://elkhartraids.website/raids")
     /* let resp = await ekRaids.processImgMessage(img_url);
 
     console.log(resp);

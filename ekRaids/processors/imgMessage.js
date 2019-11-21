@@ -21,20 +21,20 @@ async function getVisionResponse(img_url)
                 "features": [
                     {
                         "type": "TEXT_DETECTION"
-                    },
-                    {
-                        "type": "LABEL_DETECTION"
                     }
                 ]
             }
         ]
     };
-    console.log(vision_request,img_url);
+    console.log('At vision request ---',vision_request,img_url);
     let dato = '';
         dato = await axios.post('https://vision.googleapis.com/v1/images:annotate?key='+configs.VisionAPIKey,
         vision_request, { responseType: 'text' })
         .then((res) => {
+            var level;
             dato = res.data;
+            //level = dato.responses[0].labelAnnotations;
+            //console.log('lbl annotations--', level);
             dato = dato.responses[0].textAnnotations[0].description;
             dato = dato.replace(/(\r\n|\n|\r)/gm," ");
             return dato;
@@ -48,6 +48,7 @@ async function getVisionResponse(img_url)
 }module.exports.getVisionResponse = async function (url){
     return await getVisionResponse(url);
 };
+
 
 async function visionPredict(img_path){
     // [START automl_vision_predict]
@@ -89,6 +90,7 @@ async function visionPredict(img_path){
 }module.exports.visionPredict = async function(img_path){
     return await visionPredict(img_path);
 };
+
 
 /*
 async function checkClarifyRaidScore(image_url)
