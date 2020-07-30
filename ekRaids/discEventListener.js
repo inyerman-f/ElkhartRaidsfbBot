@@ -5,7 +5,6 @@ const
     ekRaids = require('../ekRaids/ekRaids'),
     client = new Discord.Client();
 
-
 async function start_discord()
 {
     client.on('ready', () => {
@@ -36,11 +35,8 @@ client.on('message', msg => {
                 msg = msg.toString();
                 console.log('a messagem was recivido');
                 if (attch === undefined){
-
                 processText(msg);
                 console.log(msg,' ----at msg recieved Discord');
-                
-
                 }
                 else {
                 // console.log(attch);
@@ -57,7 +53,6 @@ client.on('message', msg => {
 }
 
 async function processText(txt){
-
     let  resp = await discUtils.processTextMsg(txt);
     console.log(resp,' ---at txtmsg processing completed');
     client.channels.get('537064710093144066').send('te procese');

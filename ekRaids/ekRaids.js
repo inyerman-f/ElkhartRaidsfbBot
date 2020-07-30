@@ -8,9 +8,6 @@ const
     const {Wit, log} = require('node-wit');
     const witClient = new Wit({accessToken: configs.witAIToken});
 
-
-
-
 /**
  * Process received text and log to raid site
  * @param messageText
@@ -36,8 +33,7 @@ async function processTextMessage(messageText){
         console.log(raid_data,'@ekRaids/processTextMessage()/else');
         if (raid_data && raid_data!=='could-not-find-cleanup-regexp')
         {
-          // let raid_tier = await getTierByBossName(raid_data.boss_name);
-           //console.log(raid_tier);
+
            let resp = '';
 
             if(raid_data.tier){
@@ -70,9 +66,7 @@ async function processImgMessage(img_url){
 
     let respuesta;
     let imgData = await imgProcessor.getVisionResponse(img_url);
-    //console.log('este',imgData);
-    //let isRaidEgg;
-    
+  
     let witresp = await eKRaids.send2Wit(imgData);
        witresp = witresp['entities'];
 
@@ -80,11 +74,7 @@ async function processImgMessage(img_url){
         respuesta = witProssResp;
         console.log(respuesta,'---at respuesta')
 
-    
-
-
     return respuesta;
-
 
 }module.exports.processImgMessage = async function(img_url){
     return await processImgMessage(img_url);
@@ -278,26 +268,60 @@ let location;
 let duration;
 
 
-if(strng['raid_egg_expression']){
-        type = 'egg';
-        console.log('is an egg ', type);
+if(strng['raid_location']){
+    location = strng['raid_location'][0].value;
+    console.log('Raid at', location);
 }
-else if (strng['raid_boss'])
+
+if (strng['T1'])
 {
-        type = 'raid';
-        console.log('is an raid ', type);
-            boss_name = strng['raid_boss'][0].value;
-    console.log(boss_name);
+    type = 'raid';
+    raidLvl = 1;
+    boss_name = strng['T1'][0].value;
 }
-
-if(strng['raid_tier'])
+else if (strng['T2'])
 {
-    raidLvl = strng['raid_tier'][0].value;
-    console.log(raidLvl);
+    type = 'raid';
+    raidLvl = 2;
+    boss_name = strng['T2'][0].value;
+}
+else if (strng['T3'])
+{
+    type = 'raid';
+    raidLvl = 3;
+    boss_name = strng['T3'][0].value;
+}
+else if (strng['T4'])
+{
+    type = 'raid';
+    raidLvl = 4;
+    boss_name = strng['T4'][0].value;
+}
+else if (strng['T5'])
+{
+    type = 'raid';
+    raidLvl = 5;
+    boss_name = strng['T5'][0].value;
+}
+else
+{
+    type = 'egg';
 }
 
 
-return type;
+if (strng['duration_from_image'])
+{
+    duration = strng['duration_from_image'][0].value
+    duration_regexp = /:(.*):/g;
+    duration = duration.split(duration_regexp);
+    duration = duration[1];
+}
+
+console.log('This is a T'+raidLvl+' raid. For '+boss_name+' ending in '+duration);
+
+data = {type:type,tier:raidLvl,boss_name:boss_name,location:location,duration:duration}
+
+return data;
 
 }module.exports.proccessWitTxt = async function (strng){
     return await proccessWitTxt(strng);
