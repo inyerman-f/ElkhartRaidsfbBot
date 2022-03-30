@@ -1,6 +1,6 @@
 # Messenger Platform Sample -- node.js
 
-This project is an example server for Messenger Platform built in Node.js. With this ekRaidsBot, you can send it messages and it will echo them back to you. You can also see examples of the different types of Structured Messages. 
+This project is an example server for Messenger Platform built in Node.js. With this ekRaidsBot, you can send it messages and it will echo them back to you. You can also see examples of the different types of Structured Messages. This project is based on the example provided by facebook for creating simple messaging bots. 
 
 It contains the following functionality:
 
